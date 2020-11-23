@@ -3,6 +3,7 @@ import Modules.databaseModule as dbm
 import Modules.dataVisualizationModule as dvm 
 import Modules.statisticsModule as stm 
 import numpy as np
+import pandas as pd
 
 #importing database credentials
 import os

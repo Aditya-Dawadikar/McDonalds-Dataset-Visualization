@@ -64,3 +64,25 @@ class dataVisualization:
         labelsList = labels 
         ax.pie(dataList, labels = labelsList,autopct='%1.2f%%')
         self.pyplot.show()
+
+    def heatmap(self,dataframe):
+        labels=[]
+        for col in dataframe.columns:
+            labels.append(col)
+
+        corelationMatrix=dataframe.corr()
+        fig, ax = self.pyplot.subplots()
+        ax.set_xticks(np.arange(dataframe.shape[0]))
+        ax.set_yticks(np.arange(dataframe.shape[0]))
+        ax.set_xticklabels(labels)
+        ax.set_yticklabels(labels)
+        im = ax.imshow(corelationMatrix)
+        self.pyplot.setp(ax.get_xticklabels(), rotation=45, ha="right",
+                rotation_mode="anchor")
+        # Loop over data dimensions and create text annotations.
+        for i in range(dataframe.shape[0]):
+            for j in range(dataframe.shape[0]):
+                text = ax.text(j, i, dataframe.iloc[i, j],
+                            ha="center", va="center", color="w")
+
+        self.pyplot.show()
