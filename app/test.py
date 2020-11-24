@@ -12,6 +12,6 @@ from dotenv import load_dotenv,find_dotenv
 load_dotenv(find_dotenv())
 
 #establish connection with database
-db = dbm.menuSource(os.environ.get('DATABASE_USERNAME'),os.environ.get('DATABASE_USERNAME'))
-
-plotter = dvm.dataVisualization()
+menudb = dbm.menuSource()
+safeValuedb = dbm.safeValueSource()
+umdb=dbm.userManagement()

@@ -1,0 +1,16 @@
+sq_no,nutrition,min_req,max_req,unit
+1,calories,NULL,80,g per 100grams
+2,calories,25,35,percent daily value
+3,fat,3,17.5,g per 100grams
+4,saturatedfat,1.5,5,g per 100grams
+5,transfat,NULL,2,g per 100grams
+6,cholesterol,NULL,0.3,g per 100grams
+7,sodium,NULL,2.3,g per 100grams
+8,carbohydrates,225,325,g per day
+9,dietaryfiber,25,30,g per 100grams
+10,sugar,0.3,1.5,g per 100grams
+11,protein,0.8,1,g per pound of body weight
+12,vitaminA,700,900,micro gram per day
+13,vitaminC,75,90,mg per day
+14,calcium,1000,2500,mg per day
+15,iron,17,20.5,mg per day
