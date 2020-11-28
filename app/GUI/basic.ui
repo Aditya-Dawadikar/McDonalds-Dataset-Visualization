@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>764</width>
+    <height>602</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="titleLabel">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>0</y>
+      <width>341</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>MS Sans Serif</family>
+      <pointsize>15</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string> McDonald's Food Ananlysis</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="categoryRadio">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>119</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Category</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="foodItemRadio">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>120</y>
+      <width>95</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Food Items</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="analyzeLabel">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>70</y>
+      <width>241</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>What do you want to analyze?</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="nutritionRadio">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>116</y>
+      <width>181</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Comparison of Nutritions</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="categoryCombo">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>500</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Breakfast</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Beek&amp;Pork</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Chicken&amp;Fish</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Salads</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Snacks &amp; Sides</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Desserts</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Beverages</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Coffee &amp; Tea</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Smoothies &amp; Shakes</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="categoryLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>180</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Category :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="nutritionLabel">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>180</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Nutritions :</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="showButton">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>400</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Show Visualization</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="safetyRadio">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>116</y>
+      <width>211</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Comparison with Safety Values</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="nutritionList">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>180</y>
+      <width>256</width>
+      <height>106</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Calories</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Total Fat (% Daily Value)</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Cholesterol (% Daily Value)</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Sodium (% Daily Value)</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Carbohydrates (% Daily Value)</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Dietary Fiber (% Daily Value)</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Sugars</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Protein</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Vitamin A (% Daily Value)</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Vitamin C (% Daily Value)</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Calcium (% Daily Value)</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Iron (% Daily Value)</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QListWidget" name="categoryList">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>180</y>
+      <width>181</width>
+      <height>106</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Breakfast</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Beef &amp; Pork</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Chicken &amp; Fish</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Salads</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Snacks &amp; Sides</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Desserts</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Beverages</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Coffee &amp; Tea</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Smoothies &amp; Shakes</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="foodItemCombo">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>500</y>
+      <width>121</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="foodItemLabel">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>490</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Food Item :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="graphLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>310</y>
+      <width>241</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Select the type of graph :</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="pieRadio">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>350</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pie chart</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="barRadio">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>380</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Bar Graph</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="scatterRadio">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>350</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Scatter Plot</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="heatRadio">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>380</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Heatmap</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>764</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
