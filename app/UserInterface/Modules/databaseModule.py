@@ -27,6 +27,7 @@ class menuSource:
         for col in self.df.columns:
             headerList.append(col)
         return headerList
+        #print(headerList)
     
     def getSizeOfDataSet(self):
         return self.df.size
@@ -103,6 +104,16 @@ class menuSource:
         #compose query
         query = "select "+queryCols+" from mc_donalds_menu "+constraintString
         #return dataframe
+        df = pd.read_sql(query,self.con)
+        return df
+
+    def getDistinctValuesFromColumn(self):
+        query="select distinct category from mc_donalds_menu"
+        df = pd.read_sql(query,self.con)
+        return df
+
+    def getItemByCategory(self,category):
+        query="select ITEM from mc_donalds_menu where CATEGORY='"+category+"'"
         df = pd.read_sql(query,self.con)
         return df
 

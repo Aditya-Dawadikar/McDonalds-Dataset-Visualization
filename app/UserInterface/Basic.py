@@ -11,9 +11,41 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QFont
 from Data import dataList
+import pandas as pd
+import Modules.dataVisualizationModule as dvm
+import sys
+    
+'''
+required data for plotting graphs
+1. graph type
+2. x_axis data
+3. x_axis labels
+4. y_axis data
+5. y_axis labels
+6. datalist(pie chart,heatmap)
+7. datalist lables(pie chart,heatmap)
 
+paramteres requied and description
+1. state(int): 
+    1:category view 
+    2:fooditemview 
+    3:comparison view 
+    4:safety value view 
+2. graphType(int):
+    1: bar chart 
+    2: barchart with safe value comparison
+    3. pie chart
+    4. scatterplot for categorical data
+    5. heatmap
+3. x_axis,y_axis labels (List[] of strings)
+4. x_axis,y_axis data (nested List[] of numbers/ dataframe columns)
+5. datalist (List[] of numbers)
+6. datalist labels(List[] of strings)
+7. threshold value(List[] of numbers)
+'''
 
 class Ui_MainWindow(object):
+#system che functions
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(764, 615)
@@ -92,6 +124,7 @@ class Ui_MainWindow(object):
         self.showButton = QtWidgets.QPushButton(self.centralwidget) #show visualization button
         self.showButton.setGeometry(QtCore.QRect(280, 400, 111, 31))
         self.showButton.setObjectName("showButton")
+        self.showButton.clicked.connect(self.show)
 
         self.safetyRadio = QtWidgets.QRadioButton(self.centralwidget) #safty values radio button
         self.safetyRadio.setGeometry(QtCore.QRect(470, 116, 211, 31))
@@ -205,7 +238,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-
+        
         for k,v in dataList.items():            #Logic for dynamic combobox values 
             category=QStandardItem(k)
             self.model.appendRow(category)
@@ -215,58 +248,6 @@ class Ui_MainWindow(object):
 
         self.categoryCombo.currentIndexChanged.connect(self.updatefoodItemCombo) # for updation of index
         self.updatefoodItemCombo(0)
-
-    def updatefoodItemCombo(self,index):
-        ind=self.model.index(index,0,self.categoryCombo.rootModelIndex())
-        self.foodItemCombo.setRootModelIndex(ind)
-        self.foodItemCombo.setCurrentIndex(0)
-
-    def manageCategory(self,selected):  # to display the necessary GUI for Category wise analysis
-        if selected:
-            self.categoryCombo.hide()
-            self.foodItemCombo.hide()
-            self.foodItemLabel.hide()
-
-            self.categoryLabel.setGeometry(QtCore.QRect(10, 180, 81, 31))
-            self.categoryLabel.show()
-            self.categoryList.setGeometry(QtCore.QRect(100, 180, 181, 106))
-            self.categoryList.show()
-            self.nutritionLabel.setGeometry(QtCore.QRect(300, 180, 91, 31))
-            self.nutritionLabel.show()
-            self.nutritionList.setGeometry(QtCore.QRect(380, 180, 256, 106))
-            self.nutritionList.show()
-
-    def manageFoodItem(self,selected):  # to display the necessary GUI for Food item wise analysis
-        if selected:
-            self.categoryList.hide()
-
-            self.categoryLabel.setGeometry(QtCore.QRect(10, 180, 81, 31))
-            self.categoryLabel.show()
-            self.categoryCombo.setGeometry(QtCore.QRect(90, 185, 98, 31))
-            self.categoryCombo.show()
-            self.foodItemLabel.setGeometry(QtCore.QRect(220, 180, 81, 31))
-            self.foodItemLabel.show()
-            self.foodItemCombo.setGeometry(QtCore.QRect(310, 185, 121, 31))
-            self.foodItemCombo.show()
-            self.nutritionLabel.setGeometry(QtCore.QRect(460, 180, 91, 31))
-            self.nutritionLabel.show()
-            self.nutritionList.setGeometry(QtCore.QRect(551, 185, 256, 106))
-            self.nutritionList.show()
-
-    def manageNutrition(self,selected):  # to display the necessary GUI for Nutrition wise analysis
-        if selected:
-            self.categoryLabel.hide()
-            self.categoryCombo.hide()
-            self.categoryList.hide()
-            self.foodItemLabel.hide()
-            self.foodItemCombo.hide()
-
-            self.nutritionLabel.setGeometry(QtCore.QRect(10, 180, 81, 31))
-            self.nutritionLabel.show()
-            self.nutritionList.setGeometry(QtCore.QRect(100, 180, 188, 106))
-            self.nutritionList.show()
-
-    
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -345,12 +326,126 @@ class Ui_MainWindow(object):
         self.scatterRadio.setText(_translate("MainWindow", "Scatter Plot"))
         self.heatRadio.setText(_translate("MainWindow", "Heatmap"))
 
+#aple UI management wale functions
+    def updatefoodItemCombo(self,index):
+        ind=self.model.index(index,0,self.categoryCombo.rootModelIndex())
+        self.foodItemCombo.setRootModelIndex(ind)
+        self.foodItemCombo.setCurrentIndex(0)
 
+    def manageCategory(self,selected):  # to display the necessary GUI for Category wise analysis
+        if selected:
+            self.categoryCombo.hide()
+            self.foodItemCombo.hide()
+            self.foodItemLabel.hide()
+
+            self.categoryLabel.setGeometry(QtCore.QRect(10, 180, 81, 31))
+            self.categoryLabel.show()
+            self.categoryList.setGeometry(QtCore.QRect(100, 180, 181, 106))
+            self.categoryList.show()
+            self.nutritionLabel.setGeometry(QtCore.QRect(300, 180, 91, 31))
+            self.nutritionLabel.show()
+            self.nutritionList.setGeometry(QtCore.QRect(380, 180, 256, 106))
+            self.nutritionList.setSelectionMode(1)
+            self.nutritionList.show()
+
+    def manageFoodItem(self,selected):  # to display the necessary GUI for Food item wise analysis
+        if selected:
+            self.categoryList.hide()
+
+            self.categoryLabel.setGeometry(QtCore.QRect(10, 180, 81, 31))
+            self.categoryLabel.show()
+            self.categoryCombo.setGeometry(QtCore.QRect(90, 185, 150, 31))
+            self.categoryCombo.show()
+            self.foodItemLabel.setGeometry(QtCore.QRect(270, 180, 81, 31))
+            self.foodItemLabel.show()
+            self.foodItemCombo.setGeometry(QtCore.QRect(360, 185, 350, 31))
+            self.foodItemCombo.show()
+            self.nutritionLabel.setGeometry(QtCore.QRect(760, 180, 91, 31))
+            self.nutritionLabel.show()
+            self.nutritionList.setGeometry(QtCore.QRect(851, 185, 256, 106))
+            self.nutritionList.show()
+
+    def manageNutrition(self,selected):  # to display the necessary GUI for Nutrition wise analysis
+        if selected:
+            self.categoryLabel.hide()
+            self.categoryCombo.hide()
+            self.categoryList.hide()
+            self.foodItemLabel.hide()
+            self.foodItemCombo.hide()
+
+            self.nutritionLabel.setGeometry(QtCore.QRect(10, 180, 81, 31))
+            self.nutritionLabel.show()
+            self.nutritionList.setGeometry(QtCore.QRect(100, 180, 188, 106))
+            self.nutritionList.show()
+
+#aple data management wale functions
+    def show(self):
+        if self.categoryRadio.isChecked()==True:
+            self.visualization(1)
+        elif self.foodItemRadio.isChecked()==True:
+            self.visualization(2)
+        elif self.nutritionRadio.isChecked()==True:
+            self.visualization(3)
+        elif self.safetyRadio.isChecked()==True:
+            self.visualization(4)
+
+    def visualization(self,state):
+        #read csv
+        df= pd.read_csv("menu.csv")
+        #plotterObject= dvm()
+        if(state==1):
+            items=self.categoryList.selectedItems()
+
+            #select the categories
+            categorySelect=[]
+            for i in range(len(items)):
+                categorySelect.append(str(self.categoryList.selectedItems()[i].text()))
+            #select nutrition
+            nutrient= str(self.nutritionList.selectedItems()[0].text())
+            print("cateogrySelect:"+categorySelect)
+            print("nutient"+nutrient)
+            # Graph description
+            #   x axis: Category
+            #   y axis: Range for selected Nutrient
+            '''
+            x_label="x axis"
+            y_label="y axis"
+            x_data=['Aditya','Neha','gaurav','Izac']
+            y_data=[10,12,9,11]
+            title="Category Analysis"
+            obj=dvm.dataVisualization()
+            obj.barchart(x_label,y_label,x_data,y_data,title)
+            '''
+        elif(state==2):
+            #someting
+            a=1
+        elif(state==3):
+            #someting
+            a=1
+        else:
+            #someting
+            a=1
+        return 
+
+'''
 if __name__ == "__main__":
-    import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+'''
+
+class UiCaller:
+    def __init__(self):
+        self.app = QtWidgets.QApplication(sys.argv)
+        self.MainWindow = QtWidgets.QMainWindow()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self.MainWindow)
+        self.MainWindow.show()
+        sys.exit(self.app.exec_())
+
+    
+
+uiObj=UiCaller()
