@@ -401,9 +401,11 @@ class Ui_MainWindow(object):
             for i in range(len(items)):
                 categorySelect.append(str(self.categoryList.selectedItems()[i].text()))
             #select nutrition
-            nutrient= str(self.nutritionList.selectedItems()[0].text())
-            print("cateogrySelect:"+categorySelect)
-            print("nutient"+nutrient)
+            nutrient= self.nutritionList.selectedIndexes()[0]
+            print("cateogrySelect:")
+            print(categorySelect)
+            print("nutient"+nutrient.data())
+
             # Graph description
             #   x axis: Category
             #   y axis: Range for selected Nutrient
@@ -426,16 +428,6 @@ class Ui_MainWindow(object):
             #someting
             a=1
         return 
-
-'''
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
-'''
 
 class UiCaller:
     def __init__(self):
