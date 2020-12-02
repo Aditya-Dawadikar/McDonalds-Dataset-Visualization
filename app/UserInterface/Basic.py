@@ -401,13 +401,14 @@ class Ui_MainWindow(object):
             for i in range(len(items)):
                 categorySelect.append(str(self.categoryList.selectedItems()[i].text()))
             #select nutrition
-            nutrient= str(self.nutritionList.selectedItems()[0].text())
-            print("cateogrySelect:"+categorySelect)
-            print("nutient"+nutrient)
+            nutrient= self.nutritionList.selectedIndexes()[0]
+            print("Selected Category: ")
+            print(categorySelect)
+            print("\nSelcted Nutrition: "+nutrient.data())
             # Graph description
             #   x axis: Category
             #   y axis: Range for selected Nutrient
-            '''
+        
             x_label="x axis"
             y_label="y axis"
             x_data=['Aditya','Neha','gaurav','Izac']
@@ -415,16 +416,48 @@ class Ui_MainWindow(object):
             title="Category Analysis"
             obj=dvm.dataVisualization()
             obj.barchart(x_label,y_label,x_data,y_data,title)
-            '''
+            
         elif(state==2):
-            #someting
-            a=1
+            #Select food item 
+
+            foodItem= self.foodItemCombo.currentText()
+
+            items=self.nutritionList.selectedItems()
+            #select the nutritions
+            nutritionSelect=[]
+            for i in range(len(items)):
+                nutritionSelect.append(str(self.nutritionList.selectedItems()[i].text()))
+
+            print("Selected Food item: ")
+            print(foodItem)
+            print("\n Selected Nutritions: ")
+            print(nutritionSelect)
+           
+            
         elif(state==3):
-            #someting
-            a=1
+            nutritions=self.nutritionList.selectedItems()
+            nutritionSelect=[]
+            for i in range(len(nutritions)):
+                nutritionSelect.append(str(self.nutritionList.selectedItems()[i].text()))
+
+            print("Selected Nutritions: ")
+            print(nutritionSelect)
+            
         else:
-            #someting
-            a=1
+            #Select food item 
+
+            foodItem= self.foodItemCombo.currentText()
+
+            items=self.nutritionList.selectedItems()
+            #select the nutritions
+            nutritionSelect=[]
+            for i in range(len(items)):
+                nutritionSelect.append(str(self.nutritionList.selectedItems()[i].text()))
+
+            print("Selected Food item: ")
+            print(foodItem)
+            print("\n Selected Nutritions: ")
+            print(nutritionSelect)
         return 
 
 '''
