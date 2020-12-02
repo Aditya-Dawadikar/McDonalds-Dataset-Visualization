@@ -148,3 +148,104 @@ class dataVisualization:
             fig.layout.annotations[i].font.size = 8
         fig.show()
 
+    def donut(self,category,food):
+        labels = [
+        'Saturated Fat',
+        'Trans Fat',
+        'Cholesterol',
+        'Sodium',
+        'Carbohydrates',
+        'Dietary Fiber',
+        'Sugars',
+        'Protein']
+
+        values = []
+        dataList=[]
+
+        it1=0
+        flag=0
+        for i in self.df['Category']:
+            it2=it1
+            if(category==self.df['Category'].iloc[it1]):
+                for j in self.df['Item']:
+                    #print(self.df.iloc[it1])
+                    if(food==self.df['Item'].iloc[it2]):
+                        dataList=self.df.iloc[it1].tolist()
+                        flag=1
+                    break
+                    it2+=1
+            if flag==1:
+                break
+            it1+=1
+
+        values.append(dataList[7])
+        values.append(dataList[9])
+        values.append(dataList[10]*0.001)
+        values.append(dataList[12]*0.000001)
+        values.append(dataList[14])
+        values.append(dataList[16])
+        values.append(dataList[18])
+        values.append(dataList[19])
+
+        # Use `hole` to create a donut-like pie chart
+        fig = go.Figure(data=[go.Pie(labels=labels, values=values, hole=.3)])
+        fig.update_layout(
+        title_text="Nutritional Constituents in "+food,
+        # Add annotations in the center of the donut pies.
+        annotations=[dict(text=food, x=0.5, y=0.5, font_size=20, showarrow=False)])
+        fig.show()
+
+    def safeValueComparison(self,category,food):
+        labels = [
+        'Calories',
+        'Fat',
+        'Saturated Fat',
+        'Trans Fat',
+        'Cholesterol',
+        'Sodium',
+        'Carbohydrates',
+        'Dietary Fiber',
+        'Sugars',
+        'Protein']
+
+        maxValues=[120,17.5,5,2,0.3,2.3,325,30,1.5,1]
+        minValues=[80,3,1.5,0,0,0,225,25,0.3,0.8]
+
+        dataList=[]
+
+        it1=0
+        flag=0
+        for i in self.df['Category']:
+            it2=it1
+            if(category==self.df['Category'].iloc[it1]):
+                for j in self.df['Item']:
+                    if(food==self.df['Item'].iloc[it2]):
+                        dataList=self.df.iloc[it1].tolist()
+                        flag=1
+                    break
+                    it2+=1
+            if flag==1:
+                break
+            it1+=1
+
+        values=[]
+        values.append(dataList[3])
+        values.append(dataList[5])
+        values.append(dataList[7])
+        values.append(dataList[9])
+        values.append(dataList[10]*0.001)
+        values.append(dataList[12]*0.000001)
+        values.append(dataList[14])
+        values.append(dataList[16])
+        values.append(dataList[18])
+        values.append(dataList[19])
+
+        fig = go.Figure(data=[
+            go.Bar(name='Min requirement per 100g serving', x=labels, y=minValues),
+            go.Bar(name='Actual Value per 100g serving', x=labels, y=values),
+            go.Bar(name='Max requirement per 100g serving', x=labels, y=maxValues)
+        ])
+        # Change the bar mode
+        fig.update_layout(barmode='group',title_text='Safe value comparison for '+food+" per 100 gram of serving")
+        fig.update_layout()
+        fig.show()
