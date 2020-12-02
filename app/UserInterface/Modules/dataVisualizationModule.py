@@ -1,11 +1,10 @@
 import pandas as pd
 import numpy as np
-#import seaborn as sns
 import plotly.express as px
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import plotly.figure_factory as ff
-
+import statistics as stat
 
 class dataVisualization:
     def __init__(self):
@@ -249,3 +248,90 @@ class dataVisualization:
         fig.update_layout(barmode='group',title_text='Safe value comparison for '+food+" per 100 gram of serving")
         fig.update_layout()
         fig.show()
+
+    # bar1: multifood category, single nutrient
+    def bar1(self,food_category,column):
+        values=[]
+        for category in food_category:
+            start=0; 
+            for i in range(self.df.shape[0]):
+                if(category==self.df['Category'].iloc[i]):
+                    start=i
+                    break
+            l=[]
+            it=start
+            while self.df['Category'].iloc[it]==category:
+                l.append(self.df[column].iloc[it])
+                it+=1        
+            values.append(stat.mean(l))
+           
+        fig = go.Figure([go.Bar(x=food_category, y=values)])
+        fig.update_layout(title_text=column)
+        fig.show()
+
+    #bar graph for metal,fat,vitamin comparison for particular item
+    def bar2(self,food,status):
+        #must pass name of food and status code 1,2 or 3 depending on the type of graph required
+        nutrient=[]
+        values=[]
+
+        '''
+        status map:
+            1: metal
+            2: fats
+            3: vitamin
+
+        index map:
+
+        metals: 
+            sodium: 13
+            iron:23
+            calcium:22
+
+        fats:
+            total: 5
+            saturated: 7 
+            trans:9
+
+        vitamin
+            vitamin A: 20
+            vitamin C: 21 
+        '''
+
+        row=[]
+        for i in range(self.df.shape[0]):
+            if(food==self.df['Item'].iloc[i]):
+                row=self.df.iloc[i].tolist()
+                break
+
+        if(status==1):
+            #metals
+            nutrient.append(row[13])
+            nutrient.append(row[22])
+            nutrient.append(row[23])
+            values.append('Sodium % Daily Value')
+            values.append('Calcium % Daily Value')
+            values.append('Iron % Daily Value')
+        
+        elif(status==2):
+            #fats
+            nutrient.append(row[5])
+            nutrient.append(row[7])
+            nutrient.append(row[9])
+            values.append('Total Fat per 100g')
+            values.append('Saturated Fat per 100g')
+            values.append('Transfat per 100g')
+
+        elif(status==3):
+            #vitamin
+            nutrient.append(row[20])
+            nutrient.append(row[21])
+            values.append('Vitamin A % Daily Value')
+            values.append('Vitamin C % Daily Value')
+
+
+        fig = go.Figure([go.Bar(x=values, y=nutrient)])
+        fig.update_layout(title_text="nutrient comparison for "+food)
+        fig.show()
+
+    #swarm plot with select x axis values for category

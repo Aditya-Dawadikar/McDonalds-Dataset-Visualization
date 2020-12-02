@@ -8,4 +8,4 @@ Category_Min = ['Calories', 'Total Fat', 'Cholesterol','Sodium', 'Sugars', 'Carb
 l=np.array([1,4,2,5,2,6,1,7,4,7])
 x_labels=[1,4,2,5,2,6,1,7,4,7]
 y_labels=[1,4,2,5,2,6,1,7,4,7]
-obj.test()
+obj.bar2()
