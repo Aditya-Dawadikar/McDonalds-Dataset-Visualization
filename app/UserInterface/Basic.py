@@ -11,10 +11,10 @@ import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QFont
 import pandas as pd
-
-import Modules.dataVisualizationModule as dvm
+import Modules.dataVisualizationModule as dvm 
+import Modules.statisticsModule as sm
+import sys
 from Data import dataList
-
 class Ui_MainWindow(object):
     def __init__(self):
         self.state=0
@@ -217,6 +217,34 @@ class Ui_MainWindow(object):
         self.nutritionOptionCombo.addItem("")
         self.nutritionOptionCombo.hide()
 
+        self.summaryRadio = QtWidgets.QRadioButton(self.centralwidget) #For summary Radio Button
+        self.summaryRadio.setGeometry(QtCore.QRect(785, 120, 200, 17))
+        self.summaryRadio.setObjectName("summaryRadio")
+        self.summaryRadio.toggled.connect(self.manageSummary)
+        self.summaryRadio.toggled.connect(self.radioToggle)
+
+        self.summaryLabel = QtWidgets.QLabel(self.centralwidget)  #For Sumary Label
+        self.summaryLabel.setGeometry(QtCore.QRect(480, 400, 300, 13))
+        self.summaryLabel.setObjectName("summaryLabel")
+        self.summaryLabel.hide()
+
+        self.columnSummaryCombo = QtWidgets.QComboBox(self.centralwidget)
+        self.columnSummaryCombo.setGeometry(QtCore.QRect(560, 400, 69, 22))
+        self.columnSummaryCombo.setObjectName("columnSummaryCombo")
+        self.columnSummaryCombo.hide()
+        self.columnSummaryCombo.addItem("")
+        self.columnSummaryCombo.addItem("")
+        self.columnSummaryCombo.addItem("")
+        self.columnSummaryCombo.addItem("")
+        self.columnSummaryCombo.addItem("")
+        self.columnSummaryCombo.addItem("")
+        self.columnSummaryCombo.addItem("")
+        self.columnSummaryCombo.addItem("")
+        self.columnSummaryCombo.addItem("")
+        self.columnSummaryCombo.addItem("")
+        self.columnSummaryCombo.addItem("")
+        self.columnSummaryCombo.addItem("")
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 764, 21))
@@ -319,6 +347,20 @@ class Ui_MainWindow(object):
         self.nutritionOptionCombo.setItemText(0, _translate("MainWindow", "Metal"))
         self.nutritionOptionCombo.setItemText(1, _translate("MainWindow", "Fat"))
         self.nutritionOptionCombo.setItemText(2, _translate("MainWindow", "Vitamin"))
+        self.summaryRadio.setText(_translate("MainWindow", "Summary of Nutrient"))
+        self.summaryLabel.setText(_translate("MainWindow", "TextLabel"))
+        self.columnSummaryCombo.setItemText(0, _translate("MainWindow", "Calories"))
+        self.columnSummaryCombo.setItemText(1, _translate("MainWindow", "Total Fat"))
+        self.columnSummaryCombo.setItemText(2, _translate("MainWindow", "Cholesterol"))
+        self.columnSummaryCombo.setItemText(3, _translate("MainWindow", "Sodium"))
+        self.columnSummaryCombo.setItemText(4, _translate("MainWindow", "Carbohydrates"))
+        self.columnSummaryCombo.setItemText(5, _translate("MainWindow", "Dietary Fiber"))
+        self.columnSummaryCombo.setItemText(6, _translate("MainWindow", "Sugars"))
+        self.columnSummaryCombo.setItemText(7, _translate("MainWindow", "Protein"))
+        self.columnSummaryCombo.setItemText(8, _translate("MainWindow", "Vitamin A (% Daily Value)"))
+        self.columnSummaryCombo.setItemText(9, _translate("MainWindow", "Vitamin C (% Daily Value)"))
+        self.columnSummaryCombo.setItemText(10, _translate("MainWindow", "Calcium (% Daily Value)"))
+        self.columnSummaryCombo.setItemText(11, _translate("MainWindow", "Iron (% Daily Value)"))
 
 #UI management functions
     def updatefoodItemCombo(self,index):
@@ -333,6 +375,8 @@ class Ui_MainWindow(object):
             self.foodItemLabel.hide()
             self.nutritionOptionCombo.hide()
             self.pieRadio.hide()
+            self.summaryLabel.hide()
+            self.columnSummaryCombo.hide()
 
             self.categoryLabel.setGeometry(QtCore.QRect(10, 180, 81, 31))
             self.categoryLabel.show()
@@ -345,11 +389,13 @@ class Ui_MainWindow(object):
             self.nutritionList.setSelectionMode(2)
             self.nutritionList.show()
             self.graphLabel.setText("Select the type of graph :")
+            self.graphLabel.show()
             self.barRadio.setGeometry(QtCore.QRect(30, 350, 500, 21))
             self.barRadio.setText("Bar chart(Multiple category, single nutrient)")
             self.barRadio.show()
             self.scatterRadio.setGeometry(QtCore.QRect(30, 380, 400, 21))
             self.scatterRadio.show()
+            self.showButton.setText("Show Visualization")
 
     def manageFoodItem(self,selected):  # to display the necessary GUI for Food item wise analysis
         if selected:
@@ -358,6 +404,8 @@ class Ui_MainWindow(object):
             self.scatterRadio.hide()
             self.nutritionLabel.hide()
             self.nutritionList.hide()
+            self.summaryLabel.hide()
+            self.columnSummaryCombo.hide()
 
             self.categoryLabel.setGeometry(QtCore.QRect(10, 180, 81, 31))
             self.categoryLabel.show()
@@ -368,11 +416,13 @@ class Ui_MainWindow(object):
             self.foodItemCombo.setGeometry(QtCore.QRect(360, 185, 350, 31))
             self.foodItemCombo.show()
             self.graphLabel.setText("Select the type of graph :")
+            self.graphLabel.show()
             self.pieRadio.setText("Donut ")
             self.pieRadio.show()
             self.barRadio.setGeometry(QtCore.QRect(30, 380, 81, 21))
             self.barRadio.setText("Bar chart")
             self.barRadio.show()
+            self.showButton.setText("Show Visualization")
 
     def manageComparisonOfNutrition(self,selected):  #Display necessary GUI for Comaprison of nutritions
          if selected:
@@ -381,6 +431,8 @@ class Ui_MainWindow(object):
             self.pieRadio.hide()
             self.barRadio.hide()
             self.scatterRadio.hide()
+            self.summaryLabel.hide()
+            self.columnSummaryCombo.hide()
 
             self.categoryLabel.setGeometry(QtCore.QRect(10, 180, 81, 31))
             self.categoryLabel.show()
@@ -395,6 +447,8 @@ class Ui_MainWindow(object):
             self.nutritionOptionCombo.setGeometry(QtCore.QRect(851, 185, 100, 31))
             self.nutritionOptionCombo.show()
             self.graphLabel.setText("By Deafult it will generate Bar Graph:")
+            self.graphLabel.show()
+            self.showButton.setText("Show Visualization")
           
     def manageSafetyValues(self,selected):    #Display GUI for safety values
         if selected:
@@ -405,6 +459,8 @@ class Ui_MainWindow(object):
             self.pieRadio.hide()
             self.barRadio.hide()
             self.scatterRadio.hide()
+            self.summaryLabel.hide()
+            self.columnSummaryCombo.hide()
 
             self.categoryLabel.setGeometry(QtCore.QRect(10, 180, 81, 31))
             self.categoryLabel.show()
@@ -416,6 +472,8 @@ class Ui_MainWindow(object):
             self.foodItemCombo.show()
             self.graphLabel.setText("By default it will generate a bar graph")
             self.graphLabel.adjustSize()
+            self.graphLabel.show()
+            self.showButton.setText("Show Visualization")
             
     def manageCategory(self,selected): #Display GUI for category 
         if selected:
@@ -428,13 +486,39 @@ class Ui_MainWindow(object):
             self.foodItemLabel.hide()
             self.foodItemCombo.hide()
             self.categoryCombo.hide()
+            self.summaryLabel.hide()
+            self.columnSummaryCombo.hide()
 
             self.categoryList.setGeometry(QtCore.QRect(100, 180, 181, 106))
             self.categoryList.show()
             self.categoryList.setSelectionMode(1)
-
+            self.categoryLabel.show()
             self.graphLabel.setText("By Default it will generate Heatmap")
             self.graphLabel.adjustSize()
+            self.showButton.setText("Show Visualization")
+            self.graphLabel.show()
+
+    def manageSummary(self,selected):
+        if selected:
+            self.categoryLabel.hide()
+            self.categoryList.hide()
+            self.categoryCombo.hide()
+            self.nutritionLabel.hide()
+            self.nutritionList.hide()
+            self.nutritionOptionCombo.hide()
+            self.foodItemLabel.hide()
+            self.foodItemCombo.hide()
+            self.graphLabel.hide()
+            self.pieRadio.hide()
+            self.barRadio.hide()
+            self.scatterRadio.hide()
+            
+            self.summaryLabel.setText("Select Column")
+            self.summaryLabel.setGeometry(QtCore.QRect(290, 135, 300, 206))
+            self.summaryLabel.show()
+            self.columnSummaryCombo.setGeometry(QtCore.QRect(390, 230, 180, 22))
+            self.columnSummaryCombo.show()
+            self.showButton.setText("View Summary")
 
 #data management functions
 
@@ -463,6 +547,9 @@ class Ui_MainWindow(object):
             self.state=4
         elif self.newCategoryRadio_2.isChecked()==True:
             self.state=5
+        elif self.summaryRadio.isChecked()==True:
+            self.state=6
+
 
     def visualization(self,state,graphChoice):
         if(state==1):  # For category with Nutrition
@@ -472,6 +559,11 @@ class Ui_MainWindow(object):
             categorySelect=[]
             for i in range(len(items)):
                 categorySelect.append(str(self.categoryList.selectedItems()[i].text()))
+
+            nutritionItems=self.nutritionList.selectedItems()
+            nutritionSelect=[]
+            for i in range(len(nutritionItems)):
+                nutritionSelect.append(str(self.nutritionList.selectedItems()[i].text()))
             #select nutrition
             nutritent=self.nutritionList.selectedItems()
             
@@ -527,6 +619,26 @@ class Ui_MainWindow(object):
             print(category.data())
             obj=dvm.dataVisualization()
             obj.heatMap(str(category.data()))
+
+        elif (state==6):
+            colName=self.columnSummaryCombo.currentText()
+            obj=sm.statisticsModule()
+            result=obj.getSummary(colName)
+            cnt=str(result['row count'])
+            minResult=str(result['minimum'])
+            maxResult=str(result['maximum'])
+            meanResult=str(result['mean'])
+            modeResult=str(result['mode'])
+            medianResult=str(result['median'])
+            varienceResult=str(result['variance'])
+            stdResult=str(result['standard deviation'])
+            
+            resultString="Count: "+cnt+"\n\nMinimum: "+minResult+"\n\nMaximum: "+maxResult+"\n\nMean: "+meanResult+"\n\nMode: "+modeResult+"\n\nMedian: "+medianResult+"\n\nVariance: "+varienceResult+"\n\nStandard Deviation: "+stdResult
+            
+            self.columnSummaryCombo.hide()
+            self.summaryLabel.setGeometry(QtCore.QRect(290, 170, 300, 206))
+            self.summaryLabel.setText(resultString)
+
 
         return 
 

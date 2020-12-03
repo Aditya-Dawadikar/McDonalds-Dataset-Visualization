@@ -1,8 +1,11 @@
 import statistics as stat
+import pandas as pd
 
 class statisticsModule:
     def __init__(self):
         self.stat=stat
+        self.dataSet=pd.read_csv('menu.csv')
+        self.df=pd.DataFrame(self.dataSet)
         
     #methods for operating on list
     def getMin(self,data):
@@ -77,7 +80,8 @@ class statisticsModule:
         return result
     
     #method for column summary
-    def getSummary(self,data):
+    def getSummary(self,col):
+        data=self.df[col]
         result={}
         result['row count']=len(data)
         result['minimum']=self.getMin(data)

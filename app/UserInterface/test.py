@@ -1,8 +1,16 @@
 import Modules.dataVisualizationModule as dvm
+import Modules.statisticsModule as sm
 import numpy as np
 obj=dvm.dataVisualization()
+obj1=sm.statisticsModule()
 
-x_data=[10,20,8,70]
+'''result=obj1.getSummary('Calories')
+print(result)'''
+
+stri="hiii"+str(10)
+print(stri)
+
+'''x_data=[10,20,8,70]
 y_data=[10,12,9,11]
 Nutrient = ['Calories', 'Total Fat', 'Cholesterol','Sodium', 'Sugars', 'Carbohydrates']
 
