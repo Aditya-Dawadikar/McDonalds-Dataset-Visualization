@@ -136,13 +136,14 @@ class Ui_MainWindow(object):
         self.safetyRadio = QtWidgets.QRadioButton(self.centralwidget) #safty values radio button
         self.safetyRadio.setGeometry(QtCore.QRect(470, 116, 211, 31))
         self.safetyRadio.setObjectName("safetyRadio")
-        self.safetyRadio.toggled.connect(self.manageFoodItem)
+        self.safetyRadio.toggled.connect(self.manageSafetyValues)
         self.safetyRadio.toggled.connect(self.radioToggle)
 
-        self.newCategoryRadio_2 = QtWidgets.QRadioButton(self.centralwidget)
+        self.newCategoryRadio_2 = QtWidgets.QRadioButton(self.centralwidget) #For category 
         self.newCategoryRadio_2.setGeometry(QtCore.QRect(660, 121, 82, 17))
         self.newCategoryRadio_2.setObjectName("newCategoryRadio_2")
         self.newCategoryRadio_2.toggled.connect(self.manageCategory)
+        self.newCategoryRadio_2.toggled.connect(self.radioToggle)
 
 
         self.nutritionList = QtWidgets.QListWidget(self.centralwidget) #Nutrition list
@@ -353,7 +354,7 @@ class Ui_MainWindow(object):
         self.foodItemCombo.setRootModelIndex(ind)
         self.foodItemCombo.setCurrentIndex(0)
 
-    def manageCategoryWithNutrition(self,selected):  # to display the necessary GUI for Category wise analysis
+    def manageCategoryWithNutrition(self,selected):  # to display the necessary GUI for Category with nutrtion wise analysis
         if selected:
             self.categoryCombo.hide()
             self.foodItemCombo.hide()
@@ -363,6 +364,7 @@ class Ui_MainWindow(object):
             self.categoryLabel.setGeometry(QtCore.QRect(10, 180, 81, 31))
             self.categoryLabel.show()
             self.categoryList.setGeometry(QtCore.QRect(100, 180, 181, 106))
+            self.categoryList.setSelectionMode(2)
             self.categoryList.show()
             self.nutritionLabel.setGeometry(QtCore.QRect(300, 180, 91, 31))
             self.nutritionLabel.show()
@@ -370,6 +372,7 @@ class Ui_MainWindow(object):
             self.nutritionList.setSelectionMode(1)
             self.nutritionList.show()
             self.graphLabel.setText("Select the type of graph :")
+            self.pieRadio.setText("Pie Chart")
             self.pieRadio.show()
             self.barRadio.show()
             self.scatterRadio.show()
@@ -392,34 +395,18 @@ class Ui_MainWindow(object):
             self.nutritionList.setGeometry(QtCore.QRect(851, 185, 256, 106))
             self.nutritionList.show()
             self.graphLabel.setText("Select the type of graph :")
+            self.pieRadio.setText("Donut")
             self.pieRadio.show()
             self.barRadio.show()
             self.scatterRadio.show()
-
-
-    def manageNutrition(self,selected):  # to display the necessary GUI for Nutrition wise analysis
-        if selected:
-            self.categoryLabel.hide()
-            self.categoryCombo.hide()
-            self.categoryList.hide()
-            self.foodItemLabel.hide()
-            self.foodItemCombo.hide()
-            self.nutritionOptionCombo.hide()
-
-            self.nutritionLabel.setGeometry(QtCore.QRect(10, 180, 81, 31))
-            self.nutritionLabel.show()
-            self.nutritionList.setGeometry(QtCore.QRect(100, 180, 188, 106))
-            self.nutritionList.show()
-            self.graphLabel.setText("Select the type of graph :")
-            self.pieRadio.show()
-            self.barRadio.show()
-            self.scatterRadio.show()
-
 
     def manageComparisonOfNutrition(self,selected):  #Display necessary GUI for Comaprison of nutritions
          if selected:
             self.categoryList.hide()
             self.nutritionList.hide()
+            self.pieRadio.hide()
+            self.barRadio.hide()
+            self.scatterRadio.hide()
 
             self.categoryLabel.setGeometry(QtCore.QRect(10, 180, 81, 31))
             self.categoryLabel.show()
@@ -433,14 +420,30 @@ class Ui_MainWindow(object):
             self.nutritionLabel.show()
             self.nutritionOptionCombo.setGeometry(QtCore.QRect(851, 185, 100, 31))
             self.nutritionOptionCombo.show()
+            self.graphLabel.setText("By Deafult it will generate Bar Graph:")
+          
+
+    def manageSafetyValues(self,selected):    #Display GUI for safety values
+        if selected:
+            self.categoryList.hide()
+            self.nutritionOptionCombo.hide()
+            self.nutritionLabel.hide()
+            self.nutritionList.hide()
+
+            self.categoryLabel.setGeometry(QtCore.QRect(10, 180, 81, 31))
+            self.categoryLabel.show()
+            self.categoryCombo.setGeometry(QtCore.QRect(90, 185, 150, 31))
+            self.categoryCombo.show()
+            self.foodItemLabel.setGeometry(QtCore.QRect(270, 180, 81, 31))
+            self.foodItemLabel.show()
+            self.foodItemCombo.setGeometry(QtCore.QRect(360, 185, 350, 31))
+            self.foodItemCombo.show()
             self.graphLabel.setText("Select the type of graph :")
             self.pieRadio.show()
             self.barRadio.show()
             self.scatterRadio.show()
 
-
-
-    def manageCategory(self,selected):
+    def manageCategory(self,selected): #Display GUI for category 
         if selected:
             self.nutritionLabel.hide()
             self.nutritionList.hide()
@@ -448,6 +451,13 @@ class Ui_MainWindow(object):
             self.scatterRadio.hide()
             self.barRadio.hide()
             self.nutritionOptionCombo.hide()
+            self.foodItemLabel.hide()
+            self.foodItemCombo.hide()
+            self.categoryCombo.hide()
+
+            self.categoryList.setGeometry(QtCore.QRect(100, 180, 181, 106))
+            self.categoryList.show()
+            self.categoryList.setSelectionMode(1)
 
             self.graphLabel.setText("By Default it will generate Heatmap")
 
@@ -456,6 +466,7 @@ class Ui_MainWindow(object):
 
     graphChoice = 1
     def show(self):
+        graphChoice = 1
         #For selection of graph radio buttons
         if self.pieRadio.isChecked()==True:
             graphChoice=1
@@ -463,13 +474,8 @@ class Ui_MainWindow(object):
             graphChoice=2
         elif self.barRadio.isChecked()==True:
             graphChoice=3
-        elif self.heatRadio.isChecked()==True:
-            graphChoice=4
-        elif self.newCategoryRadio_2.isChecked()==True:
-            print("Heatmap")
-            return
 
-        self.visualization(self.state , graphChoice)
+        self.visualization(self.state ,graphChoice)
 
     def radioToggle(self):
         #For selection of main radio buttons
@@ -481,16 +487,16 @@ class Ui_MainWindow(object):
             self.state=3
         elif self.safetyRadio.isChecked()==True:
             self.state=4
+        elif self.newCategoryRadio_2.isChecked()==True:
+            self.state=5
 
     def visualization(self,state,graphChoice):
-        print(state)
-        print(graphChoice)
         #read csv
         df= pd.read_csv("menu.csv")
         #plotterObject= dvm()
        
-
-        if(state==1):
+        print(state," ",graphChoice)
+        if(state==1):  # For category with Nutrition
             items=self.categoryList.selectedItems()
 
             # #select the categories
@@ -499,12 +505,8 @@ class Ui_MainWindow(object):
                 categorySelect.append(str(self.categoryList.selectedItems()[i].text()))
             #select nutrition
             nutrient= self.nutritionList.selectedIndexes()[0]
-            # print("cateogrySelect:")
-            # print(categorySelect)
-            # print("nutient"+nutrient.data())
-            
-            nutrientPass = []
-            nutrientPass.append(nutrient.data())
+            #print("cateogrySelect:")
+
             obj=dvm.dataVisualization()
             
             #selected graph function calls
@@ -513,19 +515,12 @@ class Ui_MainWindow(object):
             elif graphChoice == 2:
                 print("Scatter plot")
             elif graphChoice == 3:
-                obj.barchart(nutrientPass)
+                obj.bar1(categorySelect,str(nutrient.data()))
 
-        
-    
-        # Graph description
-        #   x axis: Category
-        #   y axis: Range for selected Nutrient
-    
-        
-        
-        elif(state==2):
+        elif(state==2):  # For Food Item 
+            #Select category
+            category= self.categoryCombo.currentText()
             #Select food item 
-
             foodItem= self.foodItemCombo.currentText()
 
             items=self.nutritionList.selectedItems()
@@ -534,48 +529,41 @@ class Ui_MainWindow(object):
             for i in range(len(items)):
                 nutritionSelect.append(str(self.nutritionList.selectedItems()[i].text()))
 
-            print("Selected Food item: ")
-            print(foodItem)
-            print("\n Selected Nutritions: ")
-            print(nutritionSelect)
             obj=dvm.dataVisualization()
 
             if graphChoice == 1:
-                print("Pie Chart")
+                obj.donut(category,foodItem)
             elif graphChoice == 2:
                 print("Scatter plot")
             elif graphChoice == 3:
                  obj.barchart(nutritionSelect)
 
-        
-        
             
-        elif(state==3):
-            nutritions=self.nutritionList.selectedItems()
-            nutritionSelect=[]
-            for i in range(len(nutritions)):
-                nutritionSelect.append(str(self.nutritionList.selectedItems()[i].text()))
+        elif(state==3):   # For comparison of nutrtion
+            foodItem = self.foodItemCombo.currentText()
+            status = self.nutritionOptionCombo.currentIndex()
+            obj=dvm.dataVisualization()
+            obj.bar2(foodItem,status+1)
 
-            print("Selected Nutritions: ")
-            print(nutritionSelect)
-            
-        else:
+        elif(state==4):     # For comparison with saftey values
             #Select food item 
-
+            category = self.categoryCombo.currentText()
             foodItem= self.foodItemCombo.currentText()
+            obj = dvm.dataVisualization()
 
-            items=self.nutritionList.selectedItems()
-            #select the nutritions
-            nutritionSelect=[]
-            for i in range(len(items)):
-                nutritionSelect.append(str(self.nutritionList.selectedItems()[i].text()))
+            if graphChoice == 1:
+                pass
+            elif graphChoice == 2:
+                print("Scatter")
+            elif graphChoice == 3:
+                obj.safeValueComparison(category,foodItem)
 
-            print("Selected Food item: ")
-            print(foodItem)
-            print("\n Selected Nutritions: ")
-            print(nutritionSelect)
+        elif (state==5):
+            category = self.categoryList.selectedIndexes()[0]
+            print(category.data())
+            obj=dvm.dataVisualization()
+            obj.heatMap(str(category.data()))
 
-    
         return 
 
 class UiCaller:
