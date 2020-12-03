@@ -1,90 +1,35 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import statistics as stat
+
 import plotly.express as px
 import plotly.graph_objects as go
-import matplotlib.pyplot as plt
 import plotly.figure_factory as ff
-import statistics as stat
 
 class dataVisualization:
     def __init__(self):
-        self.pyplot = plt
-        #self.seaborn = sb
-        #self.plotly = ptly
         self.dataSet=pd.read_csv('menu.csv')
         self.df=pd.DataFrame(self.dataSet)
 
-        #color list
-        self.colorlist=['r','g','b','c','m','y','k','w']
-
-    #def barchart(self,x_label,y_label,x_data,y_data,title):
-    def barchart(self,col_name):
-        #col_name is a list
-        plot_list=['Category']
-        for i in col_name:
-            plot_list.append(i)
-        minerals = self.df[plot_list]
-
-        minerals_group = minerals.groupby('Category')
-        
-        category_totals = minerals_group.mean()
-        title = "nutrient in each Category in Menu Data-set of McDonald's Menu"
-        x_label = "Food Categories in Menu"
-        y_label = "Range"
-
-        my_plot = category_totals.plot(kind='bar',figsize=(10, 5),fontsize=12 )
-        plt.setp(my_plot.get_xticklabels(), rotation=30)
-        my_plot.set_title(title, fontsize=20)
-        my_plot.set_xlabel(x_label, fontsize=10)
-        my_plot.set_ylabel(y_label, fontsize=15)
-        plt.show()
-
-    def barchartWithThreshold(self,threshold,values,x_label,y_label):
-        '''
-        Note: values parameter must be a numpy array
-        '''
-        x = range(len(values))
-        # split it up
-        above_threshold = np.maximum(values - threshold, 0)
-        below_threshold = np.minimum(values, threshold)
-        # and plot it
-        fig, ax = self.pyplot.subplots()
-        ax.bar(x, below_threshold, 0.35, color="g")
-        ax.bar(x, above_threshold, 0.35, color="r",
-                bottom=below_threshold)
-        #set labels
-        ax.set_xlabel=x_label
-        ax.set_ylabel=y_label
-        # horizontal line indicating the threshold
-        ax.plot([0., 4.5], [threshold, threshold], "k--")
-        self.pyplot.show()
-
-    def piechart(self,labels,data,title):
-        fig = self.pyplot.figure()
-        ax = fig.add_axes([0,0,1,1])
-        ax.axis('equal')
-        dataList = data
-        labelsList = labels 
-        ax.pie(dataList, labels = labelsList,autopct='%1.2f%%')
-        self.pyplot.show()
-
-    def swarmplot(self,Category_Min):
-        Category_List=self.df['Category'].unique()
+    def swarmplot(self,category,Nutrient_List):
         dataframe=[]
-        for i in Category_Min:
-            l=self.df[i].tolist()
+        
+        for i in Nutrient_List:
+            l=[]
+            for it in range(259):
+                if(self.df['Category'].iloc[it]==category):
+                    l.append(self.df[i].iloc[it])
             dataframe.append(l)
-
         fig = go.Figure()
 
         for i in range(len(dataframe)):
-            fig.add_trace(go.Box(y=dataframe[i],opacity=1,fillcolor="rgba(0,0,0,0)",boxpoints="all",jitter=0.8,line={"width": 0},pointpos=0,name=Category_List[i]))
+            fig.add_trace(go.Box(y=dataframe[i],opacity=1,fillcolor="rgba(0,0,0,0)",boxpoints="all",jitter=0.8,line={"width": 0},pointpos=0,name=Nutrient_List[i]))
 
-        fig.update_layout(showlegend=False)
+        fig.update_layout()
         fig.show()
-
+        
     def heatMap(self,category):
-        #category is a string
         subData=[]
         dataList=[]
         it1=0
@@ -93,7 +38,6 @@ class dataVisualization:
             it2=it1
             if(category==self.df['Category'].iloc[it1]):
                 for j in self.df['Category']:
-                    #print(self.df.iloc[it1])
                     if(category==self.df['Category'].iloc[it2]):
                         dataList=self.df.iloc[it1].tolist()
                         subData.append(dataList[3:24])
@@ -138,13 +82,10 @@ class dataVisualization:
             l=corrMat.iloc[i].tolist()
             z.append(l)
 
-        print(corrMat)
-        #fig = px.imshow(z,labels=dict(x="Nutrient", y="Nutrient", color="Productivity"),x=cols,y=cols)
-        #fig.show()
-
         fig = ff.create_annotated_heatmap(z, x=cols, y=cols)
         for i in range(len(fig.layout.annotations)):
             fig.layout.annotations[i].font.size = 8
+        fig.update_layout(title_text='heat map for '+category)
         fig.show()
 
     def donut(self,category,food):
@@ -195,37 +136,16 @@ class dataVisualization:
         fig.show()
 
     def safeValueComparison(self,category,food):
-        labels = [
-        'Calories',
-        'Fat',
-        'Saturated Fat',
-        'Trans Fat',
-        'Cholesterol',
-        'Sodium',
-        'Carbohydrates',
-        'Dietary Fiber',
-        'Sugars',
-        'Protein']
-
+        labels = ['Calories','Fat','Saturated Fat','Trans Fat','Cholesterol','Sodium','Carbohydrates','Dietary Fiber','Sugars','Protein']
         maxValues=[120,17.5,5,2,0.3,2.3,325,30,1.5,1]
         minValues=[80,3,1.5,0,0,0,225,25,0.3,0.8]
 
         dataList=[]
 
-        it1=0
-        flag=0
-        for i in self.df['Category']:
-            it2=it1
-            if(category==self.df['Category'].iloc[it1]):
-                for j in self.df['Item']:
-                    if(food==self.df['Item'].iloc[it2]):
-                        dataList=self.df.iloc[it1].tolist()
-                        flag=1
-                    break
-                    it2+=1
-            if flag==1:
+        for i in range(259):
+            if(food==self.df['Item'].iloc[i]):
+                dataList=self.df.iloc[i].tolist()
                 break
-            it1+=1
 
         values=[]
         values.append(dataList[3])
@@ -244,14 +164,15 @@ class dataVisualization:
             go.Bar(name='Actual Value per 100g serving', x=labels, y=values),
             go.Bar(name='Max requirement per 100g serving', x=labels, y=maxValues)
         ])
-        # Change the bar mode
         fig.update_layout(barmode='group',title_text='Safe value comparison for '+food+" per 100 gram of serving")
         fig.update_layout()
         fig.show()
 
-    # bar1: multifood category, single nutrient
+    # bar graph for multifood category, single nutrient
     def bar1(self,food_category,column):
         values=[]
+        print(len(food_category))
+        
         for category in food_category:
             start=0; 
             for i in range(self.df.shape[0]):
@@ -260,15 +181,15 @@ class dataVisualization:
                     break
             l=[]
             it=start
-            while self.df['Category'].iloc[it]==category:
+            while (self.df['Category'].iloc[it]==category and it<259):
                 l.append(self.df[column].iloc[it])
                 it+=1        
             values.append(stat.mean(l))
            
         fig = go.Figure([go.Bar(x=food_category, y=values)])
-        fig.update_layout(title_text=column)
+        fig.update_layout(title_text="Avegrage "+column+" in particular categories")
         fig.show()
-
+        
     #bar graph for metal,fat,vitamin comparison for particular item
     def bar2(self,food,status):
         #must pass name of food and status code 1,2 or 3 depending on the type of graph required
@@ -277,25 +198,17 @@ class dataVisualization:
 
         '''
         status map:
-            1: metal
-            2: fats
-            3: vitamin
+            1: metal 2: fats 3: vitamin
 
         index map:
+            metals: 
+                sodium: 13 iron:23 calcium:22
 
-        metals: 
-            sodium: 13
-            iron:23
-            calcium:22
+            fats:
+                total: 5 saturated: 7 trans:9
 
-        fats:
-            total: 5
-            saturated: 7 
-            trans:9
-
-        vitamin
-            vitamin A: 20
-            vitamin C: 21 
+            vitamin
+                vitamin A: 20 vitamin C: 21 
         '''
 
         row=[]
@@ -334,4 +247,28 @@ class dataVisualization:
         fig.update_layout(title_text="nutrient comparison for "+food)
         fig.show()
 
-    #swarm plot with select x axis values for category
+    #bar graph for single nutrient and multiple categories
+    def bar3(self,food):
+        labels = ['Calories','Fat','Saturated Fat','Trans Fat','Cholesterol','Sodium','Carbohydrates','Dietary Fiber','Sugars','Protein']
+        dataList=[]
+
+        for i in range(259):
+            if(food==self.df['Item'].iloc[i]):
+                dataList=self.df.iloc[i].tolist()
+                break
+
+        values=[]
+        values.append(dataList[3])
+        values.append(dataList[5])
+        values.append(dataList[7])
+        values.append(dataList[9])
+        values.append(dataList[10]*0.001)
+        values.append(dataList[12]*0.000001)
+        values.append(dataList[14])
+        values.append(dataList[16])
+        values.append(dataList[18])
+        values.append(dataList[19])
+
+        fig = go.Figure(data=[go.Bar(name='Actual Value per 100g serving', x=labels, y=values)])
+        fig.update_layout(barmode='group',title_text='Nutrient Comparison for '+food+" per 100 gram of serving")
+        fig.show()
