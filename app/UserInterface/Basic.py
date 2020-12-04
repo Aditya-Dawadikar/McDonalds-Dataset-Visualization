@@ -31,6 +31,7 @@ class Ui_MainWindow(object):
 
         self.titleLabel = QtWidgets.QLabel(self.centralwidget)
         self.titleLabel.setGeometry(QtCore.QRect(210, 0, 341, 81))
+        self.titleLabel.setStyleSheet("color:rgb(255, 0, 0)")
         font = QtGui.QFont()
         font.setFamily("MS Sans Serif")
         font.setPointSize(15)
@@ -104,6 +105,9 @@ class Ui_MainWindow(object):
         self.showButton.setGeometry(QtCore.QRect(280, 400, 111, 31))
         self.showButton.setObjectName("showButton")
         self.showButton.clicked.connect(self.show)
+        self.showButton.setStyleSheet("border:2px solid black;\n"
+"border-radius:\"20px\";\n"
+"font-weight: lighter;")
 
         self.safetyRadio = QtWidgets.QRadioButton(self.centralwidget) #safty values radio button
         self.safetyRadio.setGeometry(QtCore.QRect(470, 116, 211, 31))
@@ -244,6 +248,19 @@ class Ui_MainWindow(object):
         self.columnSummaryCombo.addItem("")
         self.columnSummaryCombo.addItem("")
         self.columnSummaryCombo.addItem("")
+
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(110, 10, 91, 51))
+        self.label.setStyleSheet("image: url(mcDonald1.jpeg);\n"
+"border-radius: 15px")
+        self.label.setText("")
+        self.label.setObjectName("label")
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        self.label_2.setGeometry(QtCore.QRect(590, 300, 211, 201))
+        self.label_2.setText("")
+        self.label_2.setPixmap(QtGui.QPixmap("foodImage.jpeg"))
+        self.label_2.setScaledContents(True)
+        self.label_2.setObjectName("label_2")
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
