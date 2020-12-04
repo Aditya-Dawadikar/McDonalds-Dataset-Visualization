@@ -1,4 +1,4 @@
-# SDL-project
+# Mc'Donalds Dataset food nutrition analysis
 ```
 Library Dependencies
       |
@@ -9,15 +9,16 @@ Library Dependencies
       |
       +--Data Visulization
       |    |
-      |    +-- Matplotlib
-      |    +-- Seaborn
-      |    +-- Pandas
+      |    +-- Plotly
       |
       +--Statistics
       |    |
       |    +-- Statistics
       |
       +--Database management
-          |
-          +-- Cx_Oracle
+      |    |
+      |    +-- Cx_Oracle
+      +--UserInterface
+            |
+            +--PyQt5
 ```

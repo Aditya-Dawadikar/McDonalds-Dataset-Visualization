@@ -171,7 +171,6 @@ class dataVisualization:
     # bar graph for multifood category, single nutrient
     def bar1(self,food_category,column):
         values=[]
-        print(len(food_category))
         
         for category in food_category:
             start=0; 
