@@ -15,9 +15,6 @@ Library Dependencies
       |    |
       |    +-- Statistics
       |
-      +--Database management
-      |    |
-      |    +-- Cx_Oracle
       +--UserInterface
             |
             +--PyQt5
